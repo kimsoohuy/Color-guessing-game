@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <title>Game Nhận Diện Màu Sắc</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Định dạng cho nút bắt đầu */
+        button {    
+            background-color: #43040b; 
+            color: white;
+            border: none;
+            height: 40px;
+            width: 80px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: opacity 0.5s, box-shadow 0.5s;
+        }
+        /* Hiệu ứng hover cho nút */
+        button:hover {
+            background-color: #801e23;
+            transform: scale(1.1);
+            opacity: 0.99;
+            box-shadow: 10px 10px rgba(71, 13, 13, 0.5);
+        }
+
+        /* CSS cho ô nhập tên */
+        #usernameInput {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #631827;
+            border-radius: 20px;
+            margin-top: 10px;
+            outline: none;
+            text-align: center;
+            margin-left: 100px;
+            transition: border-color 0.5s;
+        }
+
+        /* Đổi màu viền khi ô nhập được chọn */
+        #usernameInput:focus {
+            border-color: #150806;
+        }
+
+        h2, h1 {
+            font-size: 20px;
+            color: #b32525fa;
+            margin-top: 10px;
+        }
+
+        /* Đặt ảnh nền cho toàn bộ trang */
+        body {
+            background-image: url('https://scontent.fhan5-11.fna.fbcdn.net/v/t39.30808-6/456326530_535802332119989_4584794629198003170_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeGSXtgnRB7Ym1GWFxcdrL70Lqru1mlMEAguqu7WaUwQCLPOU2BfwX-T5V1STL5vmTsCCRVbCuTlK2-4ggX63PsN&_nc_ohc=nF_xsf-bZxoQ7kNvgFPec0Y&_nc_zt=23&_nc_ht=scontent.fhan5-11.fna&_nc_gid=ALdrUPTrg-v9isL0M7yOH-g&oh=00_AYBBIgRudXYhAG4bx53eBAo_Xyy5ceu4K4hf897HyK_zIg&oe=672E3F84');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+
+        /* Màu mẫu */
+        #colorBox {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Lựa chọn màu sắc */
+        #choices {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        /* Nút màu */
+        #choices button {
+            width: 80px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        /* Hiệu ứng khi hover */
+        #choices button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="login">
+        <h2>Nhập tên của bạn để bắt đầu</h2>
+        <input type="text" id="usernameInput" placeholder="Tên của bạn">
+        <button onclick="startGame()">Bắt đầu</button>
+    </div>
+
+    <div id="game" style="display: none;">
+        <h1>Game Nhận Diện Màu Sắc</h1>
+        <p id="usernameDisplay"></p>
+        <div id="colorBox"></div>
+        <div id="choices"></div>
+        <p id="score">Điểm: 0</p>
+        <p id="level">Cấp độ: 1</p>
+        <button onclick="restartGame()">Chơi lại</button>
+        <h3>Bảng Điểm Cao</h3>
+        <ul id="highScoresList"></ul>
+    </div>
+
+    <script>
+        let score = 0;
+        let level = 1;
+        let correctColor;
+        let colorChoices = [];
+        let username = '';
+
+        function displayHighScores() {
+            const highScoresList = document.getElementById("highScoresList");
+            highScoresList.innerHTML = "";
+            const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+            highScores.forEach(({ name, score }, index) => {
+                const li = document.createElement("li");
+                li.innerText = ${index + 1}. ${name} - ${score} điểm;
+                highScoresList.appendChild(li);
+            });
+        }
+
+        function saveHighScore() {
+            const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+            highScores.push({ name: username, score: score });
+            highScores.sort((a, b) => b.score - a.score);
+            highScores.splice(5);
+            localStorage.setItem("highScores", JSON.stringify(highScores));
+            displayHighScores();
+        }
+
+        function startGame() {
+            const usernameInput = document.getElementById("usernameInput");
+            if (!usernameInput.value.trim()) {
+                alert("Vui lòng nhập tên của bạn!");
+                return;
+            }
+            username = usernameInput.value.trim();
+            document.getElementById("usernameDisplay").innerText = "Người chơi: " + username;
+            document.getElementById("login").style.display = "none";
+            document.getElementById("game").style.display = "block";
+            score = 0;
+            level = 1;
+            document.getElementById("score").innerText = "Điểm: " + score;
+            document.getElementById("level").innerText = "Cấp độ: " + level;
+            displayHighScores();
+            nextRound();
+        }
+
+        function generateSimilarColors() {
+            let baseColor = {
+                r: Math.floor(Math.random() * 256),
+                g: Math.floor(Math.random() * 256),
+                b: Math.floor(Math.random() * 256)
+            };
+            correctColor = rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b});
+
+            let difference = Math.max(10, 100 - level * 10);
+            colorChoices = [correctColor];
+
+            for (let i = 1; i < 4; i++) {
+                let similarColor = {
+                    r: baseColor.r + Math.floor(Math.random() * difference) - difference / 2,
+                    g: baseColor.g + Math.floor(Math.random() * difference) - difference / 2,
+                    b: baseColor.b + Math.floor(Math.random() * difference) - difference / 2
+                };
+
+                similarColor.r = Math.min(255, Math.max(0, similarColor.r));
+                similarColor.g = Math.min(255, Math.max(0, similarColor.g));
+                similarColor.b = Math.min(255, Math.max(0, similarColor.b));
+
+                colorChoices.push(rgb(${similarColor.r}, ${similarColor.g}, ${similarColor.b}));
+            }
+
+            colorChoices = colorChoices.sort(() => Math.random() - 0.5);
+        }
+
+        function nextRound() {
+            generateSimilarColors();
+            let colorBox = document.getElementById("colorBox");
+            colorBox.style.backgroundColor = correctColor;
+
+            let choicesDiv = document.getElementById("choices");
+            choicesDiv.innerHTML = "";
+            colorChoices.forEach((color) => {
+                let button = document.createElement("button");
+                button.style.backgroundColor = color;
+                button.onclick = () => checkAnswer(color);
+                choicesDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedColor) {
+            if (selectedColor === correctColor) {
+                score++;
+                if (score % 5 === 0) level++;
+            } else {
+                saveHighScore();
+                restartGame();
+                return;
+            }
+            document.getElementById("score").innerText = "Điểm: " + score;
+            document.getElementById("level").innerText = "Cấp độ: " + level;
+            nextRound();
+        }
+
+        function restartGame() {
+            username = '';
+            document.getElementById("login").style.display = "block";
+            document.getElementById("game").style.display = "none";
+            document.getElementById("usernameInput").value = "";
+        }
+
+        displayHighScores();
+    </script>
+</body>
+</html>
+     
