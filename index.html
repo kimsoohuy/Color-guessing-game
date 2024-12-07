@@ -1,92 +1,111 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <title>game to mau</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Nhận Diện Màu Sắc với Cấp Độ và Lưu Điểm</title>
+    <title>Game nhận diện màu sắc</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1d;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #login, #game {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+        }
+        button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #e64a19;
+            transform: scale(1.1);
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+            margin: 10px 0;
+            outline: none;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #ff5722;
+        }
+        #colorBox {
+            margin: 20px auto;
+            border: 3px solid #ffffff;
+            border-radius: 10px;
+        }
+        #choices button {
+            display: inline-block;
+            margin: 10px;
+            width: 100px;
+            height: 50px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        #choices button:hover {
+            transform: scale(1.1);
+        }
+        h1, h2, h3, p {
+            margin: 0;
+            padding: 10px 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            padding: 5px;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
 <div id="login">
-    <h2>Nhập tên của bạn để bắt đầu</h2>
-    <input type="text" id="usernameInput" placeholder="Tên của bạn" onkeypress="handleKeyPress(event)">
+    <h2>Chào mừng bạn đến với trò chơi!</h2>
+    <input type="text" id="usernameInput" placeholder="Nhập tên của bạn" onkeypress="handleKeyPress(event)">
     <button onclick="startGame()">Bắt đầu</button>
-    <style>
-        /* Định dạng cho nút bắt đầu */
-        button {    
-            background-color: #43040b; 
-            color: white;
-            border: none;
-            height: 40px;
-            width: 80px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: opacity 0.5s; /* thời gian chuyển hiệu ứng opacity */
-            transition: box-shadow 0.5s;
-        }
-        /* Hiệu ứng hover cho nút */
-        button:hover {
-            background-color: #801e23; /* Đổi màu nền khi hover */
-            transform: scale(1.1); /* Tăng nhẹ kích thước nút */
-            opacity: 0.99; /* tạo hiệu ứng fade */
-            box-shadow: 10px 10px rgba(71, 13, 13, 0.5);
-        }
-
-        /* CSS cho ô nhập tên */
-        #usernameInput {
-            width: 80%; /* Kích thước rộng của ô */
-            padding: 10px; /* Khoảng cách bên trong */
-            font-size: 16px; /* Cỡ chữ */
-            border: 2px solid #631827; /* Viền với màu nhạt */
-            border-radius: 20px; /* Bo tròn góc */
-            margin-top: 10px; /* Khoảng cách phía trên */
-            outline: none; /* Bỏ đường viền khi focus */
-            text-align: center; /* Căn giữa văn bản */
-            margin-left: 100px; /* căn về phía trái */
-            transition: border-color 0.5s;
-        }
-
-        /* Đổi màu viền khi ô nhập được chọn */
-        #usernameInput:focus {
-            border-color: #150806; /* Màu viền khi nhấn vào ô */
-        }
-        h2 {
-            font-size: 20px;
-            color: #b32525fa;
-            margin-top: 10px;
-        }
-        
-        /* Đặt ảnh nền cho toàn bộ trang */
-        body {
-            background-image: url('https://scontent.fhan5-11.fna.fbcdn.net/v/t39.30808-6/456326530_535802332119989_4584794629198003170_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeGSXtgnRB7Ym1GWFxcdrL70Lqru1mlMEAguqu7WaUwQCLPOU2BfwX-T5V1STL5vmTsCCRVbCuTlK2-4ggX63PsN&_nc_ohc=nF_xsf-bZxoQ7kNvgFPec0Y&_nc_zt=23&_nc_ht=scontent.fhan5-11.fna&_nc_gid=ALdrUPTrg-v9isL0M7yOH-g&oh=00_AYBBIgRudXYhAG4bx53eBAo_Xyy5ceu4K4hf897HyK_zIg&oe=672E3F84'); /* Đường dẫn ảnh thay thế */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            font-family: Arial, sans-serif;
-            color: #fff; /* Màu chữ trắng để tương phản với ảnh nền */
-        }
-    </style>
 </div>
 
 <div id="game" style="display: none;">
     <h1>Game Nhận Diện Màu Sắc</h1>
-    <p id="usernameDisplay"></p>
-    <div id="colorBox" style="width: 200px; height: 200px; margin: 20px auto;"></div>
+    <h2 id="usernameDisplay"></h2>
+    <div id="colorBox" style="width: 200px; height: 200px;"></div>
     <div id="choices"></div>
-    <p id="score">Điểm: 0</p>
-    <p id="level">Cấp độ: 1</p>
+    <h3>Điểm: <span id="score">0</span> | Cấp độ: <span id="level">1</span></h3>
     <button onclick="restartGame()">Chơi lại</button>
     <h3>Bảng Điểm Cao</h3>
     <ul id="highScoresList"></ul>
-    <style>
-        h1 {
-            font-size: 20px;
-            color: #b32525fa;
-            margin-top: 10px;
-        }
-    </style>
 </div>
 
 <script>
@@ -104,7 +123,7 @@
 
     function displayHighScores() {
         const highScoresList = document.getElementById("highScoresList");
-        highScoresList.innerHTML = ""; // Xóa danh sách cũ
+        highScoresList.innerHTML = "";
         const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
         highScores.forEach(({ name, score }, index) => {
             const li = document.createElement("li");
@@ -117,7 +136,7 @@
         const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
         highScores.push({ name: username, score: score });
         highScores.sort((a, b) => b.score - a.score);
-        highScores.splice(5); // Chỉ lưu 5 điểm cao nhất
+        highScores.splice(5);
         localStorage.setItem("highScores", JSON.stringify(highScores));
         displayHighScores();
     }
@@ -134,8 +153,8 @@
         document.getElementById("game").style.display = "block";
         score = 0;
         level = 1;
-        document.getElementById("score").innerText = "Điểm: " + score;
-        document.getElementById("level").innerText = "Cấp độ: " + level;
+        document.getElementById("score").innerText = score;
+        document.getElementById("level").innerText = level;
         displayHighScores();
         nextRound();
     }
@@ -172,8 +191,6 @@
         colorChoices.forEach((color) => {
             let button = document.createElement("button");
             button.style.backgroundColor = color;
-            button.style.width = "100px";
-            button.style.height = "50px";
             button.onclick = () => checkAnswer(color);
             choicesDiv.appendChild(button);
         });
@@ -185,11 +202,12 @@
             if (score % 5 === 0) level++;
         } else {
             saveHighScore();
+            alert("Sai rồi! Trò chơi kết thúc.");
             restartGame();
             return;
         }
-        document.getElementById("score").innerText = "Điểm: " + score;
-        document.getElementById("level").innerText = "Cấp độ: " + level;
+        document.getElementById("score").innerText = score;
+        document.getElementById("level").innerText = level;
         nextRound();
     }
 
