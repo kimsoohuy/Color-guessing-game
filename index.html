@@ -88,6 +88,10 @@
             border-radius: 5px;
             margin: 5px 0;
         }
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -103,6 +107,7 @@
     <div id="colorBox" style="width: 200px; height: 200px;"></div>
     <div id="choices"></div>
     <h3>Điểm: <span id="score">0</span> | Cấp độ: <span id="level">1</span></h3>
+    <h3>Thời gian còn lại: <span id="timer">8</span> giây</h3>
     <button onclick="restartGame()">Chơi lại</button>
     <h3>Bảng Điểm Cao</h3>
     <ul id="highScoresList"></ul>
@@ -114,6 +119,8 @@
     let correctColor;
     let colorChoices = [];
     let username = '';
+    let timer;
+    let timeRemaining = 8;
 
     function handleKeyPress(event) {
         if (event.key === 'Enter') {
@@ -194,6 +201,23 @@
             button.onclick = () => checkAnswer(color);
             choicesDiv.appendChild(button);
         });
+        resetTimer();
+    }
+
+    function resetTimer() {
+        clearInterval(timer);
+        timeRemaining = 8;
+        document.getElementById("timer").innerText = timeRemaining;
+        timer = setInterval(() => {
+            timeRemaining--;
+            document.getElementById("timer").innerText = timeRemaining;
+            if (timeRemaining <= 0) {
+                clearInterval(timer);
+                alert("Hết thời gian! Trò chơi kết thúc.");
+                saveHighScore();
+                restartGame();
+            }
+        }, 1000);
     }
 
     function checkAnswer(selectedColor) {
@@ -201,6 +225,7 @@
             score++;
             if (score % 5 === 0) level++;
         } else {
+            clearInterval(timer);
             saveHighScore();
             alert("Sai rồi! Trò chơi kết thúc.");
             restartGame();
@@ -212,6 +237,7 @@
     }
 
     function restartGame() {
+        clearInterval(timer);
         username = '';
         document.getElementById("login").style.display = "block";
         document.getElementById("game").style.display = "none";
@@ -222,3 +248,4 @@
 </script>
 </body>
 </html>
+
